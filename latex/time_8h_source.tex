@@ -1,0 +1,72 @@
+\doxysection{time.\+h}
+\hypertarget{time_8h_source}{}\label{time_8h_source}\mbox{\hyperlink{time_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\ \#ifndef\ TIME\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\ \#define\ TIME\_H}}
+\DoxyCodeLine{00008\ \ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\ \#include\ <cstddef>}}
+\DoxyCodeLine{00010\ \ }
+\DoxyCodeLine{00015\ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTime}{Time}}\ \{}
+\DoxyCodeLine{00016\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00017\ \ \ \ \ \ \textcolor{keywordtype}{int}\ totalSeconds\_;\ }
+\DoxyCodeLine{00018\ \ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{size\_t}\ operationCount\_;\ }
+\DoxyCodeLine{00020\ \ }
+\DoxyCodeLine{00021\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \ \textcolor{comment}{//\ Конструкторы\ 3\ штуки}}
+\DoxyCodeLine{00023\ \ \ \ \ \ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \mbox{\hyperlink{classTime_a4245e409c7347d1d671858962c2ca3b5}{Time}}();}
+\DoxyCodeLine{00028\ \ \ \ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \mbox{\hyperlink{classTime_a4245e409c7347d1d671858962c2ca3b5}{Time}}(\textcolor{keywordtype}{int}\ hours,\ \textcolor{keywordtype}{int}\ minutes,\ \textcolor{keywordtype}{int}\ seconds);}
+\DoxyCodeLine{00036\ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \mbox{\hyperlink{classTime_a4245e409c7347d1d671858962c2ca3b5}{Time}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other);}
+\DoxyCodeLine{00042\ \ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \mbox{\hyperlink{classTime_a1e92dbe963fa3cdd6bea207680f5f6d1}{\string~Time}}();}
+\DoxyCodeLine{00047\ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \textcolor{comment}{//\ Методы\ доступа}}
+\DoxyCodeLine{00049\ \ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classTime_a1c9d773a49fc000decbcc311f36c83d6}{setTime}}(\textcolor{keywordtype}{int}\ hours,\ \textcolor{keywordtype}{int}\ minutes,\ \textcolor{keywordtype}{int}\ seconds);}
+\DoxyCodeLine{00057\ \ \ \ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classTime_a1306bae8b36616d83dbaaa3b5e3f6c25}{getHours}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00063\ \ \ \ \ \ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classTime_a06d35e6dcd19e0a1d335d24c24fe624c}{getMinutes}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00069\ \ \ \ \ \ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classTime_a71e669726bfe6fc37aaf0b1eeaf9659c}{getSeconds}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00075\ \ \ \ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classTime_ae908bb57970cf68498f2dc02edd19e1f}{getTotalSeconds}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00081\ \ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classTime_a9b5ff47d19a68e79803fae5fffe9c898}{print}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00086\ \ \ \ \ \ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classTime_a779f14d07c51c35a764f73392e4497e1}{getOperationCount}}();}
+\DoxyCodeLine{00092\ \ \ \ \ \ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \textcolor{comment}{//\ Унарные\ операторы\ (4\ варианта)}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\&\ \mbox{\hyperlink{classTime_a55e7ec82d5f390aa1896084e25a0f5a5}{operator++}}();\ \ \ \ \ \ \ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\ \mbox{\hyperlink{classTime_a55e7ec82d5f390aa1896084e25a0f5a5}{operator++}}(\textcolor{keywordtype}{int});\ \ \ \ \ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\&\ \mbox{\hyperlink{classTime_aec3bc84a5b3337a828e3d493dea7a699}{operator-\/-\/}}();\ \ \ \ \ \ \ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\ \mbox{\hyperlink{classTime_aec3bc84a5b3337a828e3d493dea7a699}{operator-\/-\/}}(\textcolor{keywordtype}{int});\ \ \ \ \ }
+\DoxyCodeLine{00098\ \ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \textcolor{comment}{//\ Операторы\ арифметического\ присваивания}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\&\ \mbox{\hyperlink{classTime_a8b4dbd2773e42130e0d1cf5eeca6f6d7}{operator+=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other);\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\&\ \mbox{\hyperlink{classTime_ad71b28abe6b00c8c1587e94ec945bbb8}{operator-\/=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other);\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\&\ \mbox{\hyperlink{classTime_a978214995ea71a44526d3614c49c6f4a}{operator*=}}(\textcolor{keywordtype}{double}\ scalar);\ \ \ \ \ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\&\ \mbox{\hyperlink{classTime_ab9d385c21484a61ce029ef7466e51b03}{operator/=}}(\textcolor{keywordtype}{double}\ scalar);\ \ \ \ \ }
+\DoxyCodeLine{00104\ \ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \textcolor{comment}{//\ Бинарные\ арифметические\ операторы}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\ \mbox{\hyperlink{classTime_acc7c3d913d26e9e05592feae2c3af32e}{operator+}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other)\ \textcolor{keyword}{const};\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\ \mbox{\hyperlink{classTime_a190a528ef979071753f32a8ae13a0e3f}{operator-\/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other)\ \textcolor{keyword}{const};\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\ \mbox{\hyperlink{classTime_a84cbca6b17b657bd4301b04f325c63d8}{operator*}}(\textcolor{keywordtype}{double}\ scalar)\ \textcolor{keyword}{const};\ \ \ \ \ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \mbox{\hyperlink{classTime}{Time}}\ \mbox{\hyperlink{classTime_a16b80af784f32da717f351a3da481a04}{operator/}}(\textcolor{keywordtype}{double}\ scalar)\ \textcolor{keyword}{const};\ \ \ \ \ }
+\DoxyCodeLine{00110\ \ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \textcolor{comment}{//\ Бинарные\ операторы\ сравнения}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classTime_a59a0b94a48a14950cca38b29c78c5ebd}{operator<}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other)\ \textcolor{keyword}{const};\ \ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classTime_a4838503f3fd5f3e0247f5776977e39a7}{operator>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other)\ \textcolor{keyword}{const};\ \ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classTime_a429e31172b1abb3978c520abb1294b89}{operator<=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other)\ \textcolor{keyword}{const};\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classTime_a5ba0751f4e73911d5c9e7cb03e79cde9}{operator>=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other)\ \textcolor{keyword}{const};\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classTime_a6641072fd269c2d810b98956f80dacd3}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other)\ \textcolor{keyword}{const};\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classTime_ac5c4c0faf1db19d9213f8755d4bb9f7a}{operator!=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTime}{Time}}\&\ other)\ \textcolor{keyword}{const};\ }
+\DoxyCodeLine{00118\ \ \};}
+\DoxyCodeLine{00119\ \ }
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\ \#endif}}
+
+\end{DoxyCode}

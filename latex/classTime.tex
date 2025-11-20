@@ -1,0 +1,230 @@
+\doxysection{Time Class Reference}
+\hypertarget{classTime}{}\label{classTime}\index{Time@{Time}}
+
+
+Класс для работы с временем в формате часы\+:минуты\+:секунды  
+
+
+
+
+{\ttfamily \#include $<$time.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classTime_a4245e409c7347d1d671858962c2ca3b5}\label{classTime_a4245e409c7347d1d671858962c2ca3b5} 
+{\bfseries Time} ()
+\begin{DoxyCompactList}\small\item\em Конструктор по умолчанию. Создает время 00\+:00\+:00. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classTime_ab7db42d6c1865ad88f2d39b2ca4e246a}{Time}} (int hours, int minutes, int seconds)
+\begin{DoxyCompactList}\small\item\em Параметризованный конструктор \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classTime_a63cfbd7b36e730a3a62388df19ef3c6c}{Time}} (const \mbox{\hyperlink{classTime}{Time}} \&other)
+\begin{DoxyCompactList}\small\item\em Конструктор копирования \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a1e92dbe963fa3cdd6bea207680f5f6d1}\label{classTime_a1e92dbe963fa3cdd6bea207680f5f6d1} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Time} ()
+\begin{DoxyCompactList}\small\item\em Деструктор с выводом сообщения \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classTime_a1c9d773a49fc000decbcc311f36c83d6}{set\+Time}} (int hours, int minutes, int seconds)
+\begin{DoxyCompactList}\small\item\em Установить время \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classTime_a1306bae8b36616d83dbaaa3b5e3f6c25}{get\+Hours}} () const
+\begin{DoxyCompactList}\small\item\em Получить часы \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classTime_a06d35e6dcd19e0a1d335d24c24fe624c}{get\+Minutes}} () const
+\begin{DoxyCompactList}\small\item\em Получить минуты \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classTime_a71e669726bfe6fc37aaf0b1eeaf9659c}{get\+Seconds}} () const
+\begin{DoxyCompactList}\small\item\em Получить секунды \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classTime_ae908bb57970cf68498f2dc02edd19e1f}{get\+Total\+Seconds}} () const
+\begin{DoxyCompactList}\small\item\em Получить общее количество секунд \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a9b5ff47d19a68e79803fae5fffe9c898}\label{classTime_a9b5ff47d19a68e79803fae5fffe9c898} 
+void {\bfseries print} () const
+\begin{DoxyCompactList}\small\item\em Вывести время в формате HH\+:\+MM\+:SS. \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a55e7ec82d5f390aa1896084e25a0f5a5}\label{classTime_a55e7ec82d5f390aa1896084e25a0f5a5} 
+\mbox{\hyperlink{classTime}{Time}} \& {\bfseries operator++} ()
+\begin{DoxyCompactList}\small\item\em Префиксный инкремент (+1 секунда) \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a9d672dbfc01b4d7f7d5789640017dc37}\label{classTime_a9d672dbfc01b4d7f7d5789640017dc37} 
+\mbox{\hyperlink{classTime}{Time}} {\bfseries operator++} (int)
+\begin{DoxyCompactList}\small\item\em Постфиксный инкремент ~\newline
+ \end{DoxyCompactList}\item 
+\Hypertarget{classTime_aec3bc84a5b3337a828e3d493dea7a699}\label{classTime_aec3bc84a5b3337a828e3d493dea7a699} 
+\mbox{\hyperlink{classTime}{Time}} \& {\bfseries operator-\/-\/} ()
+\begin{DoxyCompactList}\small\item\em Префиксный декремент (-\/1 секунда) \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a85163ad1cd28df7cfdd827a013692424}\label{classTime_a85163ad1cd28df7cfdd827a013692424} 
+\mbox{\hyperlink{classTime}{Time}} {\bfseries operator-\/-\/} (int)
+\begin{DoxyCompactList}\small\item\em Постфиксный декремент \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a8b4dbd2773e42130e0d1cf5eeca6f6d7}\label{classTime_a8b4dbd2773e42130e0d1cf5eeca6f6d7} 
+\mbox{\hyperlink{classTime}{Time}} \& {\bfseries operator+=} (const \mbox{\hyperlink{classTime}{Time}} \&other)
+\begin{DoxyCompactList}\small\item\em Прибавить время \end{DoxyCompactList}\item 
+\Hypertarget{classTime_ad71b28abe6b00c8c1587e94ec945bbb8}\label{classTime_ad71b28abe6b00c8c1587e94ec945bbb8} 
+\mbox{\hyperlink{classTime}{Time}} \& {\bfseries operator-\/=} (const \mbox{\hyperlink{classTime}{Time}} \&other)
+\begin{DoxyCompactList}\small\item\em Вычесть время \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a978214995ea71a44526d3614c49c6f4a}\label{classTime_a978214995ea71a44526d3614c49c6f4a} 
+\mbox{\hyperlink{classTime}{Time}} \& {\bfseries operator\texorpdfstring{$\ast$}{*}=} (double scalar)
+\begin{DoxyCompactList}\small\item\em Умножить на скаляр \end{DoxyCompactList}\item 
+\Hypertarget{classTime_ab9d385c21484a61ce029ef7466e51b03}\label{classTime_ab9d385c21484a61ce029ef7466e51b03} 
+\mbox{\hyperlink{classTime}{Time}} \& {\bfseries operator/=} (double scalar)
+\begin{DoxyCompactList}\small\item\em Разделить на скаляр \end{DoxyCompactList}\item 
+\Hypertarget{classTime_acc7c3d913d26e9e05592feae2c3af32e}\label{classTime_acc7c3d913d26e9e05592feae2c3af32e} 
+\mbox{\hyperlink{classTime}{Time}} {\bfseries operator+} (const \mbox{\hyperlink{classTime}{Time}} \&other) const
+\begin{DoxyCompactList}\small\item\em Сложение времени \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a190a528ef979071753f32a8ae13a0e3f}\label{classTime_a190a528ef979071753f32a8ae13a0e3f} 
+\mbox{\hyperlink{classTime}{Time}} {\bfseries operator-\/} (const \mbox{\hyperlink{classTime}{Time}} \&other) const
+\begin{DoxyCompactList}\small\item\em Вычитание времени \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a84cbca6b17b657bd4301b04f325c63d8}\label{classTime_a84cbca6b17b657bd4301b04f325c63d8} 
+\mbox{\hyperlink{classTime}{Time}} {\bfseries operator\texorpdfstring{$\ast$}{*}} (double scalar) const
+\begin{DoxyCompactList}\small\item\em Умножение на скаляр \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a16b80af784f32da717f351a3da481a04}\label{classTime_a16b80af784f32da717f351a3da481a04} 
+\mbox{\hyperlink{classTime}{Time}} {\bfseries operator/} (double scalar) const
+\begin{DoxyCompactList}\small\item\em Деление на скаляр \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a59a0b94a48a14950cca38b29c78c5ebd}\label{classTime_a59a0b94a48a14950cca38b29c78c5ebd} 
+bool {\bfseries operator$<$} (const \mbox{\hyperlink{classTime}{Time}} \&other) const
+\begin{DoxyCompactList}\small\item\em Меньше \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a4838503f3fd5f3e0247f5776977e39a7}\label{classTime_a4838503f3fd5f3e0247f5776977e39a7} 
+bool {\bfseries operator$>$} (const \mbox{\hyperlink{classTime}{Time}} \&other) const
+\begin{DoxyCompactList}\small\item\em Больше \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a429e31172b1abb3978c520abb1294b89}\label{classTime_a429e31172b1abb3978c520abb1294b89} 
+bool {\bfseries operator$<$=} (const \mbox{\hyperlink{classTime}{Time}} \&other) const
+\begin{DoxyCompactList}\small\item\em Меньше или равно \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a5ba0751f4e73911d5c9e7cb03e79cde9}\label{classTime_a5ba0751f4e73911d5c9e7cb03e79cde9} 
+bool {\bfseries operator$>$=} (const \mbox{\hyperlink{classTime}{Time}} \&other) const
+\begin{DoxyCompactList}\small\item\em Больше или равно \end{DoxyCompactList}\item 
+\Hypertarget{classTime_a6641072fd269c2d810b98956f80dacd3}\label{classTime_a6641072fd269c2d810b98956f80dacd3} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classTime}{Time}} \&other) const
+\begin{DoxyCompactList}\small\item\em Равно \end{DoxyCompactList}\item 
+\Hypertarget{classTime_ac5c4c0faf1db19d9213f8755d4bb9f7a}\label{classTime_ac5c4c0faf1db19d9213f8755d4bb9f7a} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{classTime}{Time}} \&other) const
+\begin{DoxyCompactList}\small\item\em Не равно \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static size\+\_\+t \mbox{\hyperlink{classTime_a779f14d07c51c35a764f73392e4497e1}{get\+Operation\+Count}} ()
+\begin{DoxyCompactList}\small\item\em Получить количество операций/объектов \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Класс для работы с временем в формате часы\+:минуты\+:секунды 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classTime_ab7db42d6c1865ad88f2d39b2ca4e246a}\label{classTime_ab7db42d6c1865ad88f2d39b2ca4e246a} 
+\index{Time@{Time}!Time@{Time}}
+\index{Time@{Time}!Time@{Time}}
+\doxysubsubsection{\texorpdfstring{Time()}{Time()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Time\+::\+Time (\begin{DoxyParamCaption}\item[{int}]{hours,  }\item[{int}]{minutes,  }\item[{int}]{seconds }\end{DoxyParamCaption})}
+
+
+
+Параметризованный конструктор 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hours} & Часы \\
+\hline
+{\em minutes} & Минуты \\
+\hline
+{\em seconds} & Секунды \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classTime_a63cfbd7b36e730a3a62388df19ef3c6c}\label{classTime_a63cfbd7b36e730a3a62388df19ef3c6c} 
+\index{Time@{Time}!Time@{Time}}
+\index{Time@{Time}!Time@{Time}}
+\doxysubsubsection{\texorpdfstring{Time()}{Time()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Time\+::\+Time (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classTime}{Time}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Конструктор копирования 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Объект для копирования \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classTime_a1306bae8b36616d83dbaaa3b5e3f6c25}\label{classTime_a1306bae8b36616d83dbaaa3b5e3f6c25} 
+\index{Time@{Time}!getHours@{getHours}}
+\index{getHours@{getHours}!Time@{Time}}
+\doxysubsubsection{\texorpdfstring{getHours()}{getHours()}}
+{\footnotesize\ttfamily int Time\+::get\+Hours (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Получить часы 
+
+\begin{DoxyReturn}{Returns}
+Значение часов 
+\end{DoxyReturn}
+\Hypertarget{classTime_a06d35e6dcd19e0a1d335d24c24fe624c}\label{classTime_a06d35e6dcd19e0a1d335d24c24fe624c} 
+\index{Time@{Time}!getMinutes@{getMinutes}}
+\index{getMinutes@{getMinutes}!Time@{Time}}
+\doxysubsubsection{\texorpdfstring{getMinutes()}{getMinutes()}}
+{\footnotesize\ttfamily int Time\+::get\+Minutes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Получить минуты 
+
+\begin{DoxyReturn}{Returns}
+Значение минут 
+\end{DoxyReturn}
+\Hypertarget{classTime_a779f14d07c51c35a764f73392e4497e1}\label{classTime_a779f14d07c51c35a764f73392e4497e1} 
+\index{Time@{Time}!getOperationCount@{getOperationCount}}
+\index{getOperationCount@{getOperationCount}!Time@{Time}}
+\doxysubsubsection{\texorpdfstring{getOperationCount()}{getOperationCount()}}
+{\footnotesize\ttfamily size\+\_\+t Time\+::get\+Operation\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Получить количество операций/объектов 
+
+\begin{DoxyReturn}{Returns}
+Статистика работы 
+\end{DoxyReturn}
+\Hypertarget{classTime_a71e669726bfe6fc37aaf0b1eeaf9659c}\label{classTime_a71e669726bfe6fc37aaf0b1eeaf9659c} 
+\index{Time@{Time}!getSeconds@{getSeconds}}
+\index{getSeconds@{getSeconds}!Time@{Time}}
+\doxysubsubsection{\texorpdfstring{getSeconds()}{getSeconds()}}
+{\footnotesize\ttfamily int Time\+::get\+Seconds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Получить секунды 
+
+\begin{DoxyReturn}{Returns}
+Значение секунд 
+\end{DoxyReturn}
+\Hypertarget{classTime_ae908bb57970cf68498f2dc02edd19e1f}\label{classTime_ae908bb57970cf68498f2dc02edd19e1f} 
+\index{Time@{Time}!getTotalSeconds@{getTotalSeconds}}
+\index{getTotalSeconds@{getTotalSeconds}!Time@{Time}}
+\doxysubsubsection{\texorpdfstring{getTotalSeconds()}{getTotalSeconds()}}
+{\footnotesize\ttfamily int Time\+::get\+Total\+Seconds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Получить общее количество секунд 
+
+\begin{DoxyReturn}{Returns}
+Общие секунды 
+\end{DoxyReturn}
+\Hypertarget{classTime_a1c9d773a49fc000decbcc311f36c83d6}\label{classTime_a1c9d773a49fc000decbcc311f36c83d6} 
+\index{Time@{Time}!setTime@{setTime}}
+\index{setTime@{setTime}!Time@{Time}}
+\doxysubsubsection{\texorpdfstring{setTime()}{setTime()}}
+{\footnotesize\ttfamily void Time\+::set\+Time (\begin{DoxyParamCaption}\item[{int}]{hours,  }\item[{int}]{minutes,  }\item[{int}]{seconds }\end{DoxyParamCaption})}
+
+
+
+Установить время 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hours} & Часы \\
+\hline
+{\em minutes} & Минуты \\
+\hline
+{\em seconds} & Секунды \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{time_8h}{time.\+h}}\item 
+\mbox{\hyperlink{time_8cpp}{time.\+cpp}}\end{DoxyCompactItemize}

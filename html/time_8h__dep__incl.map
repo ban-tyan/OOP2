@@ -1,0 +1,7 @@
+<map id="time.h" name="time.h">
+<area shape="rect" id="Node000001" title="Заголовочный файл класса Time для работы с временем" alt="" coords="67,5,131,31"/>
+<area shape="rect" id="Node000002" href="$main_8cpp.html" title="Демонстрационная программа для класса Time с интерактивным меню" alt="" coords="5,79,88,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,43,57,80,53,77,80,40"/>
+<area shape="rect" id="Node000003" href="$time_8cpp.html" title="Реализация методов класса Time." alt="" coords="113,79,191,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="118,40,145,77,141,80,113,43"/>
+</map>
