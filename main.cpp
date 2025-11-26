@@ -19,7 +19,9 @@
      Time actualDuration;
  };
  
- vector<Event> schedule; // Все мероприятия
+ Event** schedule = nullptr; // Указатель на массив указателей на мероприятия
+ int scheduleSize = 0;       // Количество мероприятий
+ int scheduleCapacity = 0;   // Вместимость массива
  
  // Вспомогательные функции
  void clearInputBuffer() {
@@ -35,17 +37,17 @@
  
  // Выбор мероприятия
  int selectEvent(const string& prompt) {
-     if (schedule.empty()) {
+     if (scheduleSize == 0) {
          cout << "\nРасписание пусто! Создайте мероприятие в пункте 1.\n";
          return -1;
      }
      
      cout << prompt;
-     for (size_t i = 0; i < schedule.size(); i++) {
-         cout << i + 1 << ". " << schedule[i].name << " (";
-         schedule[i].startTime.print();
+     for (int i = 0; i < scheduleSize; i++) {
+         cout << i + 1 << ". " << schedule[i]->name << " (";
+         schedule[i]->startTime.print();
          cout << " - ";
-         schedule[i].endTime.print();
+         schedule[i]->endTime.print();
          cout << ")" << endl;
      }
      
@@ -53,7 +55,7 @@
      cout << "Выберите (0 - отмена): ";
      cin >> choice;
      
-     if (cin.fail() || choice < 0 || choice > static_cast<int>(schedule.size())) {
+     if (cin.fail() || choice < 0 || choice > scheduleSize) {
          clearInputBuffer();
          cout << "Ошибка ввода!\n";
          return -1;
@@ -63,9 +65,9 @@
  }
  
  // Обновление фактической длительности с учётом перехода через сутки
- void updateActualDuration(Event& event) {
-     int startSec = event.startTime.getTotalSeconds();
-     int endSec = event.endTime.getTotalSeconds();
+ void updateActualDuration(Event* event) {
+     int startSec = event->startTime.getTotalSeconds();
+     int endSec = event->endTime.getTotalSeconds();
      int actualSec = endSec - startSec;
      
      // Если конец меньше начала (например, 23:00 → 04:00), добавляем сутки
@@ -73,7 +75,32 @@
          actualSec += 24 * 3600; // 86400 секунд
      }
      
-     event.actualDuration.setTime(0, 0, actualSec);
+     event->actualDuration.setTime(0, 0, actualSec);
+ }
+ 
+ // Добавление мероприятия в расписание
+ void addEventToSchedule(Event* newEvent) {
+     if (scheduleSize >= scheduleCapacity) {
+         // Увеличиваем capacity
+         int newCapacity = (scheduleCapacity == 0) ? 5 : scheduleCapacity * 2;
+         Event** newSchedule = new Event*[newCapacity];
+         
+         // Копируем существующие указатели
+         for (int i = 0; i < scheduleSize; i++) {
+             newSchedule[i] = schedule[i];
+         }
+         
+         // Освобождаем старый массив
+         if (schedule != nullptr) {
+             delete[] schedule;
+         }
+         
+         schedule = newSchedule;
+         scheduleCapacity = newCapacity;
+     }
+     
+     schedule[scheduleSize] = newEvent;
+     scheduleSize++;
  }
  
  // Пункт 1: Создание/изменение мероприятий
@@ -82,7 +109,7 @@
      do {
          system("clear");
          cout << "=== СОЗДАНИЕ/ИЗМЕНЕНИЕ МЕРОПРИЯТИЙ ===\n\n";
-         cout << "Количество мероприятий: " << schedule.size() << endl << endl;
+         cout << "Количество мероприятий: " << scheduleSize << endl << endl;
          
          cout << "1. Добавить новое мероприятие\n";
          cout << "2. Редактировать мероприятие\n";
@@ -101,10 +128,10 @@
          
          switch (choice) {
              case 1: {
-                 Event newEvent;
+                 Event* newEvent = new Event;
                  cout << "\nВведите название мероприятия: ";
                  clearInputBuffer();
-                 getline(cin, newEvent.name);
+                 getline(cin, newEvent->name);
                  
                  int h, m, s;
                  cout << "Введите время начала (часы минуты секунды): ";
@@ -112,26 +139,29 @@
                  if (cin.fail() || h < 0 || m < 0 || s < 0 || m >= 60 || s >= 60) {
                      cout << "Ошибка ввода времени!\n";
                      clearInputBuffer();
+                     delete newEvent; // Освобождаем память при ошибке
                  } else {
-                     newEvent.startTime.setTime(h, m, s);
+                     newEvent->startTime.setTime(h, m, s);
                      
                      cout << "Введите время окончания (часы минуты секунды): ";
                      cin >> h >> m >> s;
                      if (cin.fail() || h < 0 || m < 0 || s < 0 || m >= 60 || s >= 60) {
                          cout << "Ошибка ввода времени!\n";
                          clearInputBuffer();
+                         delete newEvent;
                      } else {
-                         newEvent.endTime.setTime(h, m, s);
+                         newEvent->endTime.setTime(h, m, s);
                          
                          cout << "Введите планируемую длительность (часы минуты секунды): ";
                          cin >> h >> m >> s;
                          if (cin.fail() || h < 0 || m < 0 || s < 0 || m >= 60 || s >= 60) {
                              cout << "Ошибка ввода времени!\n";
                              clearInputBuffer();
+                             delete newEvent;
                          } else {
-                             newEvent.plannedDuration.setTime(h, m, s);
+                             newEvent->plannedDuration.setTime(h, m, s);
                              updateActualDuration(newEvent);
-                             schedule.push_back(newEvent);
+                             addEventToSchedule(newEvent);
                              cout << "\nМероприятие успешно добавлено!\n";
                          }
                      }
@@ -143,26 +173,26 @@
                  int idx = selectEvent("\nВыберите мероприятие для редактирования:\n");
                  if (idx < 0) continue;
                  
-                 Event& event = schedule[idx];
-                 cout << "\nТекущее название: " << event.name << endl;
+                 Event* event = schedule[idx];
+                 cout << "\nТекущее название: " << event->name << endl;
                  cout << "Введите новое название (Enter - оставить): ";
                  clearInputBuffer();
                  string newName;
                  getline(cin, newName);
-                 if (!newName.empty()) event.name = newName;
+                 if (!newName.empty()) event->name = newName;
                  
                  int h, m, s;
                  cout << "Введите новое время начала (часы минуты секунды): ";
                  cin >> h >> m >> s;
-                 if (!cin.fail()) event.startTime.setTime(h, m, s);
+                 if (!cin.fail()) event->startTime.setTime(h, m, s);
                  
                  cout << "Введите новое время окончания (часы минуты секунды): ";
                  cin >> h >> m >> s;
-                 if (!cin.fail()) event.endTime.setTime(h, m, s);
+                 if (!cin.fail()) event->endTime.setTime(h, m, s);
                  
                  cout << "Введите новую план. длительность (часы минуты секунды): ";
                  cin >> h >> m >> s;
-                 if (!cin.fail()) event.plannedDuration.setTime(h, m, s);
+                 if (!cin.fail()) event->plannedDuration.setTime(h, m, s);
                  
                  updateActualDuration(event);
                  cout << "\nМероприятие отредактировано!\n";
@@ -172,28 +202,34 @@
              case 3: {
                  int idx = selectEvent("\nВыберите мероприятие для удаления:\n");
                  if (idx >= 0) {
-                     schedule.erase(schedule.begin() + idx);
+                     delete schedule[idx]; // Освобождаем память мероприятия
+                     
+                     // Сдвигаем оставшиеся указатели
+                     for (int i = idx; i < scheduleSize - 1; i++) {
+                         schedule[i] = schedule[i + 1];
+                     }
+                     scheduleSize--;
                      cout << "\nМероприятие удалено!\n";
                  }
                  waitForEnter();
                  break;
              }
              case 4: {
-                 if (schedule.empty()) {
+                 if (scheduleSize == 0) {
                      cout << "\nРасписание пусто!\n";
                  } else {
                      cout << "\n=== ПОЛНОЕ РАСПИСАНИЕ ===\n\n";
-                     for (size_t i = 0; i < schedule.size(); i++) {
-                         cout << i + 1 << ". " << schedule[i].name << endl;
+                     for (int i = 0; i < scheduleSize; i++) {
+                         cout << i + 1 << ". " << schedule[i]->name << endl;
                          cout << "   Начало: ";
-                         schedule[i].startTime.print();
+                         schedule[i]->startTime.print();
                          cout << " | Конец: ";
-                         schedule[i].endTime.print();
+                         schedule[i]->endTime.print();
                          cout << endl;
                          cout << "   План: ";
-                         schedule[i].plannedDuration.print();
+                         schedule[i]->plannedDuration.print();
                          cout << " | Факт: ";
-                         schedule[i].actualDuration.print();
+                         schedule[i]->actualDuration.print();
                          cout << endl << endl;
                      }
                  }
@@ -210,87 +246,85 @@
      } while (choice != 0);
  }
  
-
-// Пункт 2: Унарные операторы
-void demonstrateUnaryOperators() {
-    int idx = selectEvent("\nВыберите мероприятие для демонстрации унарных операторов:\n");
-    if (idx < 0) return;
-    
-    int operatorChoice;
-    do {
-        system("clear");
-        cout << "=== ДЕМОНСТРАЦИЯ УНАРНЫХ ОПЕРАТОРОВ ===\n\n";
-        cout << "Мероприятие: " << schedule[idx].name << endl;
-        cout << "Время начала: ";
-        schedule[idx].startTime.print();
-        cout << endl << endl;
-        
-        cout << "Выберите оператор:\n";
-        cout << "1. Префиксный инкремент (++time)\n";
-        cout << "2. Постфиксный инкремент (time++)\n";
-        cout << "3. Префиксный декремент (--time)\n";
-        cout << "4. Постфиксный декремент (time--)\n";
-        cout << "0. Назад\n";
-        cout << "Выберите: ";
-        cin >> operatorChoice;
-        
-        if (cin.fail()) {
-            clearInputBuffer();
-            cout << "Ошибка ввода!\n";
-            waitForEnter();
-            continue;
-        }
-        
-        Time& temp = schedule[idx].startTime; // Работаем непосредственно с временем мероприятия
-        
-        switch (operatorChoice) {
-            case 1:
-                cout << "\nПрефиксный инкремент:\n";
-                cout << "До: ";
-                temp.print();
-                cout << "\nПосле ++: ";
-                (++temp).print();
-                cout << endl;
-                waitForEnter();
-                break;
-            case 2:
-                cout << "\nПостфиксный инкремент:\n";
-                cout << "Значение до операции: ";
-                temp.print();
-                cout << "\nВозвращаемое значение: ";
-                (temp++).print();
-                cout << endl;
-                waitForEnter();
-                break;
-            case 3:
-                cout << "\nПрефиксный декремент:\n";
-                cout << "До: ";
-                temp.print();
-                cout << "\nПосле --: ";
-                (--temp).print();
-                cout << endl;
-                waitForEnter();
-                break;
-            case 4:
-                cout << "\nПостфиксный декремент:\n";
-                cout << "Значение до операции: ";
-                temp.print();
-                cout << "\nВозвращаемое значение: ";
-                (temp--).print();
-                cout << endl;
-                waitForEnter();
-                break;
-            case 0:
-                break;
-            default:
-                cout << "Неверный выбор!\n";
-                waitForEnter();
-                break;
-        }
-    } while (operatorChoice != 0);
-}
+ //Унарные операторы
+ void demonstrateUnaryOperators() {
+     int idx = selectEvent("\nВыберите мероприятие для демонстрации унарных операторов:\n");
+     if (idx < 0) return;
+     
+     int operatorChoice;
+     do {
+         system("clear");
+         cout << "=== ДЕМОНСТРАЦИЯ УНАРНЫХ ОПЕРАТОРОВ ===\n\n";
+         cout << "Мероприятие: " << schedule[idx]->name << endl;
+         cout << "Время начала: ";
+         schedule[idx]->startTime.print();
+         cout << endl << endl;
+         
+         cout << "Выберите оператор:\n";
+         cout << "1. Префиксный инкремент (++time)\n";
+         cout << "2. Постфиксный инкремент (time++)\n";
+         cout << "3. Префиксный декремент (--time)\n";
+         cout << "4. Постфиксный декремент (time--)\n";
+         cout << "0. Назад\n";
+         cout << "Выберите: ";
+         cin >> operatorChoice;
+         
+         if (cin.fail()) {
+             clearInputBuffer();
+             cout << "Ошибка ввода!\n";
+             waitForEnter();
+             continue;
+         }
+         
+         Time& temp = schedule[idx]->startTime; 
+         
+         switch (operatorChoice) {
+             case 1:
+                 cout << "\nПрефиксный инкремент:\n";
+                 cout << "До: ";
+                 temp.print();
+                 cout << "\nПосле ++: ";
+                 (++temp).print();
+                 cout << endl;
+                 waitForEnter();
+                 break;
+             case 2:
+                 cout << "\nПостфиксный инкремент:\n";
+                 cout << "Значение до операции: ";
+                 temp.print();
+                 cout << "\nВозвращаемое значение: ";
+                 (temp++).print();
+                 cout << endl;
+                 waitForEnter();
+                 break;
+             case 3:
+                 cout << "\nПрефиксный декремент:\n";
+                 cout << "До: ";
+                 temp.print();
+                 cout << "\nПосле --: ";
+                 (--temp).print();
+                 cout << endl;
+                 waitForEnter();
+                 break;
+             case 4:
+                 cout << "\nПостфиксный декремент:\n";
+                 cout << "Значение до операции: ";
+                 temp.print();
+                 cout << "\nВозвращаемое значение: ";
+                 (temp--).print();
+                 cout << endl;
+                 waitForEnter();
+                 break;
+             case 0:
+                 break;
+             default:
+                 cout << "Неверный выбор!\n";
+                 waitForEnter();
+                 break;
+         }
+     } while (operatorChoice != 0);
+ }
  
- // Пункт 3: Арифметическое присваивание
  void demonstrateArithmeticAssignment() {
      int idx = selectEvent("\nВыберите мероприятие:\n");
      if (idx < 0) return;
@@ -299,9 +333,9 @@ void demonstrateUnaryOperators() {
      do {
          system("clear");
          cout << "=== АРИФМЕТИЧЕСКОЕ ПРИСВАИВАНИЕ ===\n\n";
-         cout << "Мероприятие: " << schedule[idx].name << endl;
+         cout << "Мероприятие: " << schedule[idx]->name << endl;
          cout << "Время начала: ";
-         schedule[idx].startTime.print();
+         schedule[idx]->startTime.print();
          cout << endl << endl;
          
          cout << "Выберите операцию:\n";
@@ -331,12 +365,12 @@ void demonstrateUnaryOperators() {
                  } else {
                      Time delta(h, m, s);
                      cout << "\nДо: ";
-                     schedule[idx].startTime.print();
-                     schedule[idx].startTime += delta;
+                     schedule[idx]->startTime.print();
+                     schedule[idx]->startTime += delta;
                      cout << "\nПосле += ";
                      delta.print();
                      cout << ": ";
-                     schedule[idx].startTime.print();
+                     schedule[idx]->startTime.print();
                      cout << endl;
                  }
                  waitForEnter();
@@ -352,12 +386,12 @@ void demonstrateUnaryOperators() {
                  } else {
                      Time delta(h, m, s);
                      cout << "\nДо: ";
-                     schedule[idx].startTime.print();
-                     schedule[idx].startTime -= delta;
+                     schedule[idx]->startTime.print();
+                     schedule[idx]->startTime -= delta;
                      cout << "\nПосле -= ";
                      delta.print();
                      cout << ": ";
-                     schedule[idx].startTime.print();
+                     schedule[idx]->startTime.print();
                      cout << endl;
                  }
                  waitForEnter();
@@ -372,10 +406,10 @@ void demonstrateUnaryOperators() {
                      clearInputBuffer();
                  } else {
                      cout << "\nДо: ";
-                     schedule[idx].startTime.print();
-                     schedule[idx].startTime *= scalar;
+                     schedule[idx]->startTime.print();
+                     schedule[idx]->startTime *= scalar;
                      cout << "\nПосле *= " << scalar << ": ";
-                     schedule[idx].startTime.print();
+                     schedule[idx]->startTime.print();
                      cout << endl;
                  }
                  waitForEnter();
@@ -392,10 +426,10 @@ void demonstrateUnaryOperators() {
                      cout << "Ошибка: деление на ноль!\n";
                  } else {
                      cout << "\nДо: ";
-                     schedule[idx].startTime.print();
-                     schedule[idx].startTime /= scalar;
+                     schedule[idx]->startTime.print();
+                     schedule[idx]->startTime /= scalar;
                      cout << "\nПосле /= " << scalar << ": ";
-                     schedule[idx].startTime.print();
+                     schedule[idx]->startTime.print();
                      cout << endl;
                  }
                  waitForEnter();
@@ -411,7 +445,6 @@ void demonstrateUnaryOperators() {
      } while (choice != 0);
  }
  
- // Пункт 4: Бинарные операторы
  void demonstrateBinaryOperators() {
      int idx1 = selectEvent("\nВыберите первое мероприятие:\n");
      if (idx1 < 0) return;
@@ -423,11 +456,11 @@ void demonstrateUnaryOperators() {
      do {
          system("clear");
          cout << "=== БИНАРНЫЕ ОПЕРАТОРЫ ===\n\n";
-         cout << schedule[idx1].name << " (начало): ";
-         schedule[idx1].startTime.print();
+         cout << schedule[idx1]->name << " (начало): ";
+         schedule[idx1]->startTime.print();
          cout << endl;
-         cout << schedule[idx2].name << " (начало): ";
-         schedule[idx2].startTime.print();
+         cout << schedule[idx2]->name << " (начало): ";
+         schedule[idx2]->startTime.print();
          cout << endl << endl;
          
          cout << "Выберите операцию:\n";
@@ -448,7 +481,7 @@ void demonstrateUnaryOperators() {
          
          switch (choice) {
              case 1: {
-                 Time result = schedule[idx1].startTime + schedule[idx2].startTime;
+                 Time result = schedule[idx1]->startTime + schedule[idx2]->startTime;
                  cout << "\nРезультат сложения: ";
                  result.print();
                  cout << endl;
@@ -456,7 +489,7 @@ void demonstrateUnaryOperators() {
                  break;
              }
              case 2: {
-                 Time result = schedule[idx1].startTime - schedule[idx2].startTime;
+                 Time result = schedule[idx1]->startTime - schedule[idx2]->startTime;
                  cout << "\nРезультат вычитания: ";
                  result.print();
                  cout << endl;
@@ -471,7 +504,7 @@ void demonstrateUnaryOperators() {
                      cout << "Ошибка ввода!\n";
                      clearInputBuffer();
                  } else {
-                     Time result = schedule[idx1].startTime * scalar;
+                     Time result = schedule[idx1]->startTime * scalar;
                      cout << "\nРезультат умножения: ";
                      result.print();
                      cout << endl;
@@ -489,7 +522,7 @@ void demonstrateUnaryOperators() {
                  } else if (scalar == 0) {
                      cout << "Ошибка: деление на ноль!\n";
                  } else {
-                     Time result = schedule[idx1].startTime / scalar;
+                     Time result = schedule[idx1]->startTime / scalar;
                      cout << "\nРезультат деления: ";
                      result.print();
                      cout << endl;
@@ -507,7 +540,6 @@ void demonstrateUnaryOperators() {
      } while (choice != 0);
  }
  
- // Пункт 5: Операторы сравнения
  void demonstrateComparisonOperators() {
      int idx1 = selectEvent("\nВыберите первое мероприятие:\n");
      if (idx1 < 0) return;
@@ -518,25 +550,24 @@ void demonstrateUnaryOperators() {
      system("clear");
      cout << "=== ОПЕРАТОРЫ СРАВНЕНИЯ ===\n\n";
      
-     cout << schedule[idx1].name << " (начало): ";
-     schedule[idx1].startTime.print();
+     cout << schedule[idx1]->name << " (начало): ";
+     schedule[idx1]->startTime.print();
      cout << endl;
-     cout << schedule[idx2].name << " (начало): ";
-     schedule[idx2].startTime.print();
+     cout << schedule[idx2]->name << " (начало): ";
+     schedule[idx2]->startTime.print();
      cout << endl << endl;
      
      cout << "Результаты сравнения:\n";
-     cout << "time1 < time2:  " << (schedule[idx1].startTime < schedule[idx2].startTime ? "true" : "false") << endl;
-     cout << "time1 > time2:  " << (schedule[idx1].startTime > schedule[idx2].startTime ? "true" : "false") << endl;
-     cout << "time1 <= time2: " << (schedule[idx1].startTime <= schedule[idx2].startTime ? "true" : "false") << endl;
-     cout << "time1 >= time2: " << (schedule[idx1].startTime >= schedule[idx2].startTime ? "true" : "false") << endl;
-     cout << "time1 == time2: " << (schedule[idx1].startTime == schedule[idx2].startTime ? "true" : "false") << endl;
-     cout << "time1 != time2: " << (schedule[idx1].startTime != schedule[idx2].startTime ? "true" : "false") << endl;
+     cout << "time1 < time2:  " << (schedule[idx1]->startTime < schedule[idx2]->startTime ? "true" : "false") << endl;
+     cout << "time1 > time2:  " << (schedule[idx1]->startTime > schedule[idx2]->startTime ? "true" : "false") << endl;
+     cout << "time1 <= time2: " << (schedule[idx1]->startTime <= schedule[idx2]->startTime ? "true" : "false") << endl;
+     cout << "time1 >= time2: " << (schedule[idx1]->startTime >= schedule[idx2]->startTime ? "true" : "false") << endl;
+     cout << "time1 == time2: " << (schedule[idx1]->startTime == schedule[idx2]->startTime ? "true" : "false") << endl;
+     cout << "time1 != time2: " << (schedule[idx1]->startTime != schedule[idx2]->startTime ? "true" : "false") << endl;
      
      waitForEnter();
  }
  
- // Пункт 6: Расписание и статистика
  void demonstrateScheduleAndStatic() {
      int choice;
      do {
@@ -558,31 +589,30 @@ void demonstrateUnaryOperators() {
          
          switch (choice) {
              case 1: {
-                 if (schedule.empty()) {
+                 if (scheduleSize == 0) {
                      cout << "\nРасписание пусто!\n";
                  } else {
                      cout << "\n=== ПОЛНОЕ РАСПИСАНИЕ ===\n\n";
-                     for (size_t i = 0; i < schedule.size(); i++) {
-                         cout << i + 1 << ". " << schedule[i].name << endl;
+                     for (int i = 0; i < scheduleSize; i++) {
+                         cout << i + 1 << ". " << schedule[i]->name << endl;
                          cout << "   Начало: ";
-                         schedule[i].startTime.print();
+                         schedule[i]->startTime.print();
                          cout << " | Конец: ";
-                         schedule[i].endTime.print();
+                         schedule[i]->endTime.print();
                          cout << endl;
                          cout << "   План: ";
-                         schedule[i].plannedDuration.print();
+                         schedule[i]->plannedDuration.print();
                          cout << " | Факт: ";
-                         schedule[i].actualDuration.print();
+                         schedule[i]->actualDuration.print();
                          cout << endl;
                          
-                         // Анализ разницы
-                         Time diff = schedule[i].actualDuration - schedule[i].plannedDuration;
+                         Time diff = schedule[i]->actualDuration - schedule[i]->plannedDuration;
                          cout << "   Разница: ";
                          diff.print();
                          cout << " (";
-                         if (schedule[i].actualDuration > schedule[i].plannedDuration) 
+                         if (schedule[i]->actualDuration > schedule[i]->plannedDuration) 
                              cout << "опоздание";
-                         else if (schedule[i].actualDuration < schedule[i].plannedDuration)
+                         else if (schedule[i]->actualDuration < schedule[i]->plannedDuration)
                              cout << "ускорение";
                          else
                              cout << "точно";
@@ -595,7 +625,7 @@ void demonstrateUnaryOperators() {
              case 2: {
                  system("clear");
                  cout << "=== СТАТИСТИКА ===\n\n";
-                 cout << "Всего мероприятий: " << schedule.size() << endl;
+                 cout << "Всего мероприятий: " << scheduleSize << endl;
                  cout << "Всего операций с Time: " << Time::getOperationCount() << endl;
                  waitForEnter();
                  break;
@@ -608,16 +638,16 @@ void demonstrateUnaryOperators() {
                  if (idx2 < 0) break;
                  
                  cout << "\nИнтервал между мероприятиями:\n";
-                 cout << "Конец \"" << schedule[idx1].name << "\": ";
-                 schedule[idx1].endTime.print();
+                 cout << "Конец \"" << schedule[idx1]->name << "\": ";
+                 schedule[idx1]->endTime.print();
                  cout << endl;
-                 cout << "Начало \"" << schedule[idx2].name << "\": ";
-                 schedule[idx2].startTime.print();
+                 cout << "Начало \"" << schedule[idx2]->name << "\": ";
+                 schedule[idx2]->startTime.print();
                  cout << endl;
                  
-                 Time interval = schedule[idx2].startTime - schedule[idx1].endTime;
+                 Time interval = schedule[idx2]->startTime - schedule[idx1]->endTime;
                  if (interval.getTotalSeconds() < 0) {
-                     interval += Time(24, 0, 0); // Добавляем сутки если нужно
+                     interval += Time(24, 0, 0); 
                  }
                  
                  cout << "Интервал: ";
@@ -636,7 +666,15 @@ void demonstrateUnaryOperators() {
      } while (choice != 0);
  }
  
- // ГЛАВНАЯ ФУНКЦИЯ
+ void cleanupSchedule() {
+     for (int i = 0; i < scheduleSize; i++) {
+         delete schedule[i];
+     }
+     if (schedule != nullptr) {
+         delete[] schedule;
+     }
+ }
+ 
  int main() {
      int choice;
      
@@ -688,6 +726,8 @@ void demonstrateUnaryOperators() {
                  break;
          }
      } while (choice != 0);
+     
+     cleanupSchedule();
      
      return 0;
  }

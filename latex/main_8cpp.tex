@@ -34,8 +34,11 @@ void {\bfseries wait\+For\+Enter} ()
 \Hypertarget{main_8cpp_aa54a852b6474def79da8215cd7e2953e}\label{main_8cpp_aa54a852b6474def79da8215cd7e2953e} 
 int {\bfseries select\+Event} (const string \&prompt)
 \item 
-\Hypertarget{main_8cpp_a12dc776f866782b6b90a470489602088}\label{main_8cpp_a12dc776f866782b6b90a470489602088} 
-void {\bfseries update\+Actual\+Duration} (\mbox{\hyperlink{structEvent}{Event}} \&event)
+\Hypertarget{main_8cpp_a0043e04d6593ebba752a5128653779e5}\label{main_8cpp_a0043e04d6593ebba752a5128653779e5} 
+void {\bfseries update\+Actual\+Duration} (\mbox{\hyperlink{structEvent}{Event}} \texorpdfstring{$\ast$}{*}event)
+\item 
+\Hypertarget{main_8cpp_a26e762da731f83d02a0ab1644329a454}\label{main_8cpp_a26e762da731f83d02a0ab1644329a454} 
+void {\bfseries add\+Event\+To\+Schedule} (\mbox{\hyperlink{structEvent}{Event}} \texorpdfstring{$\ast$}{*}new\+Event)
 \item 
 \Hypertarget{main_8cpp_ac719e1476338f42ff3bc25983c994571}\label{main_8cpp_ac719e1476338f42ff3bc25983c994571} 
 void {\bfseries manage\+Schedule} ()
@@ -55,14 +58,23 @@ void {\bfseries demonstrate\+Comparison\+Operators} ()
 \Hypertarget{main_8cpp_a3e23ffffc7637d2e5af2ef3972c60e09}\label{main_8cpp_a3e23ffffc7637d2e5af2ef3972c60e09} 
 void {\bfseries demonstrate\+Schedule\+And\+Static} ()
 \item 
+\Hypertarget{main_8cpp_a93d93c626e62da4cd9b9862c4a8eb3f9}\label{main_8cpp_a93d93c626e62da4cd9b9862c4a8eb3f9} 
+void {\bfseries cleanup\+Schedule} ()
+\item 
 \Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
 int {\bfseries main} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{main_8cpp_acafc3eb0bb2049b535306bddfdd56f11}\label{main_8cpp_acafc3eb0bb2049b535306bddfdd56f11} 
-vector$<$ \mbox{\hyperlink{structEvent}{Event}} $>$ {\bfseries schedule}
+\Hypertarget{main_8cpp_ad3263cedc15f5f7a32b25f4da1d6ef61}\label{main_8cpp_ad3263cedc15f5f7a32b25f4da1d6ef61} 
+\mbox{\hyperlink{structEvent}{Event}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries schedule} = nullptr
+\item 
+\Hypertarget{main_8cpp_a52095c5df0e2688f3356d64708db0723}\label{main_8cpp_a52095c5df0e2688f3356d64708db0723} 
+int {\bfseries schedule\+Size} = 0
+\item 
+\Hypertarget{main_8cpp_a756f06b2f4a3448371a7c57544b166f8}\label{main_8cpp_a756f06b2f4a3448371a7c57544b166f8} 
+int {\bfseries schedule\+Capacity} = 0
 \end{DoxyCompactItemize}
 
 
